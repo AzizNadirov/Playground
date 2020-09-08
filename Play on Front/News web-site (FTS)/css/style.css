@@ -1,0 +1,14 @@
+body{
+    background-color: #355bc5;
+}
+div.card-group{
+    display: inline;
+}
+
+#daily-shit{
+    color: white;
+    padding: 10px;
+}
+div.card{
+    margin-bottom: 10px;
+}

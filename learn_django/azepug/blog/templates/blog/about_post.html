@@ -1,0 +1,76 @@
+{% extends 'blog/post_list.html'%}
+{% block title %} {{post.title}} - AzePUG {% endblock %}
+{% block body%}
+{% load static %}
+{% load humanize %}
+
+<div class="container">
+    <h2><i>{{post.title}}</i></h2>
+    <p class="text-lg-right"> <i><b><a href="#">{{post.author}}</a> Tarix:{{post.date_created | naturaltime}}</b></i></p>
+    <div class="text-sm-center">
+        {{post.content}}
+        <br>
+        {% if request.user == post.author %}
+            <br>
+            <a class = "btn btn-secondary" href="{% url 'blog:update_post' post.id %}" >
+                Redaktə et
+            </a>
+
+            <a class = "btn btn-secondary" href="{% url 'blog:delete_post' post.id %}" >
+                Sil
+            </a>
+        {% endif %}
+    </div>
+    <br>
+    <hr>
+    {% with comments.count as total_comments %}
+    <h4>
+        Şərhlər({{total_comments}}) 
+    </h4>
+    <br>
+    {% endwith %}
+    {% for comment in comments %}
+        <div class="comment row">
+            <div class="col-md-2">
+                <img src='{% static "def.png" %}' alt="logo" class="comment-profile-logo rounded-circle" style="
+                    height: 100px;
+                    width: 100px;
+                ">
+            </div>
+            <div class="col-md-10">
+                <!-- <p>prof img url: {{comment.author.profile.img.url}}</p> -->
+                <div class="card">
+                    <div class="card-header">
+                        N:<b>{{forloop.counter}}</b> : <a href="#">{{comment.author}}</a>
+                        <p class="date_created d-inline text-lg-right">{{comment.created|naturaltime}}</p>
+                    </div>
+                        
+                    <div class="card-body m-2">{{comment.body|linebreaks}}</div>
+                </div>
+            </div>
+        </div> 
+    {% empty %}  
+        <h4>İlk şərhçi siz olun! </h4>         
+    {% endfor %}
+
+{% if new_comment %}
+    <small class="text-success">Şərhiniz uğurla əlavə edildi</small>
+{% else %}
+    <br>
+    <h5>Yeni şərh əlavə et</h5>
+    <form method="POST">
+{% if user.is_authenticated %}
+<!--        decorate here, for loginned user comment -->
+    {{comment_form.as_p}}
+{% else %}
+<!--        it is for non auth user-->
+    {{comment_form.as_p}}
+{% endif %}
+    {% csrf_token %}
+    <p>
+        <input class="btn btn-success" type="submit" value="Əlavə et">
+    </p>
+    </form>
+{% endif %}
+</div>
+{% endblock %}

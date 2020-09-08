@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+
+{%block title%}
+    AzePUG
+{%endblock%}
+
+{%block body%}
+<div class="container">
+    <h2>Top Məqalələr</h2>
+    
+    {% for p in posts %}
+        <div class = "card m-1">
+            <div class="card card-title m-1">
+                <a class="card-link" href="{% url 'blog:about_post' p.id %}">
+                    <div class="m-1"><h3> {{p.title}} </h3></div>
+                </a>
+            </div>
+            <div class="card-body m-1">
+                {{p.content|truncatewords:30|linebreaks}}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+
+    <hr>
+
+    <h2>Top Vakansiyalar</h2>
+    <br>
+    {% for v in vacancies %}
+        <div class = "card m-1">
+            <div class="card card-title m-1">
+                <a class="card-link" href="{% url 'vacancy:about_vacancy' v.id %}">
+                    <div class="m-1"><h3> {{v.title}} </h3></div>
+                </a>
+            </div>
+            <div class="card-body m-1">
+                {{v.content|truncatewords:30|linebreaks}}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+
+
+</div>
+{%endblock%}

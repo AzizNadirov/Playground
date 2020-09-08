@@ -1,0 +1,10 @@
+div.container{
+    background-color: rgb(166, 209, 226);
+}
+#navbar{
+    background:rgb(6, 50, 68);
+    color: black;
+}
+div.card{
+    margin-bottom: 10px;
+}
